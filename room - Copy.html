@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đăng Ký Tour Du Lịch</title>
+  <link href="img/LogoTimelesscharm.ico" rel="icon">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #ededff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      opacity: 0; /* Ban đầu ẩn trang */
+      animation: fadeIn 1s ease-in forwards; /* Thêm hiệu ứng fade-in cho body */
+    }
+
+    /* Hiệu ứng fade-in khi trang tải */
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    .form-container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 600px;
+      transform: scale(0.8); /* Ban đầu thu nhỏ form */
+      animation: zoomIn 1s ease-out forwards; /* Thêm hiệu ứng zoom-in cho form */
+    }
+
+    /* Hiệu ứng zoom-in khi form xuất hiện */
+    @keyframes zoomIn {
+      0% {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .form-container h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      font-size: 16px;
+      color: #555;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+      color: #333;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
+    .form-group .error {
+      color: red;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 12px;
+      background-color: #28a745;
+      border: none;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+
+    .submit-btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 300%;
+      height: 300%;
+      background-color: #fff;
+      transition: all 0.4s ease;
+      border-radius: 50%;
+      opacity: 0.2;
+    }
+
+    .submit-btn:hover {
+      background-color: #2a6227;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .submit-btn:hover::before {
+      width: 0;
+      height: 0;
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Đăng Ký Tour Du Lịch</h2>
+    <form id="tourForm" action="" method="POST">
+      <div class="form-group">
+        <label for="fullName">Họ và Tên</label>
+        <input type="text" id="fullName" name="fullName" placeholder="Nhập họ và tên" required oninput="validateFullName()">
+        <div class="error" id="nameError"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Số Điện Thoại</label>
+        <input type="text" id="phone" name="phone" placeholder="Nhập số điện thoại " required pattern="^0\d{9}$" title="Số điện thoại phải bắt đầu bằng số 0 và có tổng cộng 10 chữ số" oninput="validatePhone()">
+        <div class="error" id="phoneError"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Nhập tên email " name="email" required pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$" title="Email phải có đuôi @gmail.com">
+        <div class="error" id="emailError"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="tourDate">Ngày Đi Tour</label>
+        <input type="date" id="tourDate" name="tourDate" required>
+      </div>
+
+      <div class="form-group">
+        <label for="tourChoice">Chọn Tour Du Lịch </label>
+        <select id="tourChoice" name="tourChoice" required>
+          <option value="phuQuoc">Phú Quốc</option>
+          <option value="vinhHaLong">Vĩnh Hạ Long - Cần Thơ</option>
+          <option value="hue">Đà Nẵng - Bà Nà - Hội An - Huế</option>
+        </select>
+      </div>
+
+      <button type="submit" class="submit-btn">Đăng Ký</button>
+    </form>
+  </div>
+
+  <script>
+    // Function to validate phone number
+    function validatePhone() {
+      const phoneInput = document.getElementById("phone");
+      const phoneError = document.getElementById("phoneError");
+
+      phoneInput.value = phoneInput.value.replace(/\D/g, '');
+      
+      if (phoneInput.value.length !== 10) {
+        phoneError.textContent = "Số điện thoại phải gồm 10 chữ số.";
+      } else if (phoneInput.value[0] !== '0') {
+        phoneError.textContent = "Số điện thoại phải bắt đầu bằng số 0.";
+      } else {
+        phoneError.textContent = "";
+      }
+    }
+
+    // Function to validate full name
+    function validateFullName() {
+      const fullNameInput = document.getElementById("fullName");
+      const nameError = document.getElementById("nameError");
+
+      fullNameInput.value = fullNameInput.value.replace(/[^a-zA-ZÀÁẢÃẠÂẦẨẪẬĂẰẮẲẴẶÈÉẺÊẾỀểễệìíỉĩịòóỏõọôồổỗộơờởỡợùúủũụôơùúáa-zA-Zàáảãạâầẩẫậăằắẳẵặèéẻêếềểễệìíỉĩịòóỏõọôồổỗộơờởỡợùúủũụôơùúá\s]/g, '');
+
+      if (/[^a-zA-ZÀÁẢÃẠÂẦẨẪẬĂẰẮẲẴẶÈÉẺÊẾỀỂỄỆÌÍỈĨỊÒÓỎÕỌÔỒỔỖỘƠỜỞỠỢÙÚỦŨỤÔƠÙÚÁa-zA-Zàáảãạâầẩẫậăằắẳẵặèéẻêếềểễệìíỉĩịòóỏõọôồổỗộơờởỡợùúủũụôơùúá\s]/.test(fullNameInput.value)) {
+        nameError.textContent = "Họ và tên không được chứa số hoặc ký tự đặc biệt.";
+      } else if (fullNameInput.value.length < 5) {
+        nameError.textContent = "Họ và tên phải có ít nhất 5 ký tự.";
+      } else {
+        nameError.textContent = "";
+      }
+    }
+
+    // Check email format and display error if it's not valid
+    document.getElementById("tourForm").addEventListener("submit", function(event) {
+      const emailInput = document.getElementById("email");
+      const emailError = document.getElementById("emailError");
+      const phoneInput = document.getElementById("phone");
+      const phoneError = document.getElementById("phoneError");
+      const fullNameInput = document.getElementById("fullName");
+      const nameError = document.getElementById("nameError");
+
+      emailError.textContent = "";
+      phoneError.textContent = "";
+      nameError.textContent = "";
+
+      if (!/^\d{10}$/.test(phoneInput.value) || phoneInput.value[0] !== '0') {
+        event.preventDefault();
+        phoneError.textContent = "Số điện thoại phải bắt đầu bằng số 0 và có tổng cộng 10 chữ số.";
+      }
+
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+      if (!emailPattern.test(emailInput.value)) {
+        event.preventDefault();
+        emailError.textContent = "Email phải có đuôi @gmail.com.";
+      }
+
+      if (/[^a-zA-ZÀÁẢÃẠÂẦẨẪẬĂẰẮẲẴẶÈÉẺÊẾỀểễệìíỉĩịòóỏõọôồổỗộơờởỡợùúủũụôơùúáa-zA-Zàáảãạâầẩẫậăằắẳẵặèéẻêếềểễệìíỉĩịòóỏõọôồổỗộơờởỡợùúủũụôơùúá\s]/.test(fullNameInput.value)) {
+        event.preventDefault();
+        nameError.textContent = "Họ và tên không được chứa số hoặc ký tự đặc biệt.";
+      } else if (fullNameInput.value.length < 5) {
+        event.preventDefault();
+        nameError.textContent = "Họ và tên phải có ít nhất 5 ký tự.";
+      }
+    });
+  </script>
+</body>
+</html>
+
+
