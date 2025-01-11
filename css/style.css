@@ -516,7 +516,7 @@
     color: var(--light);
 }
 .footer .footer-menu a:hover{
-    color:#f39c12
+    color:#f39c12;
 }
 
 .footer .footer-menu a {
