@@ -90,8 +90,7 @@
                     <h1 class="display-3 text-white mb-3 animated slideInDown">Liên hệ</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center text-uppercase">
-                            <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
-                            <li class="breadcrumb-item"><a href="#">Trang</a></li>
+                            <li class="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
                             <li class="breadcrumb-item text-white active" aria-current="page">Liên hệ</li>
                         </ol>
                     </nav>
@@ -127,7 +126,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="wow fadeInUp" data-wow-delay="0.2s">
-                            <form>
+                            <form onsubmit="event.preventDefault(); generateGmailLink();">
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <div class="form-floating">
@@ -233,6 +232,19 @@
                 nameError.textContent = "Họ và tên phải có ít nhất 5 ký tự.";
               }
             });
+
+            function generateGmailLink() {
+            const name = document.getElementById('fullName').value;
+            const phone = document.getElementById('phone').value;
+            const date = document.getElementById('message').value;
+
+            const subject =`Phản hồi của ${name}`;
+            const body = `Họ và tên: ${name}%0A` +
+                         `Số điện thoại: ${phone}%0A` +
+                         `Phản hồi: ${date}`;
+             const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=vntourismsv@gmail.com&su=${encodeURIComponent(subject)}&body=${body}`;
+             window.open(gmailLink, '_blank');
+        }
           </script>
         <!-- Contact End -->
         <!-- Footer Start -->

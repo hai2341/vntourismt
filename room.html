@@ -131,7 +131,7 @@
 <body>
   <div class="form-container">
     <h2>Đăng Ký Tour Du Lịch</h2>
-    <form id="tourForm" action="" method="POST">
+    <form id="tourForm" action="" method="POST" onsubmit="event.preventDefault(); generateGmailLink();">
       <div class="form-group">
         <label for="fullName">Họ và Tên</label>
         <input type="text" id="fullName" name="fullName" placeholder="Nhập họ và tên" required oninput="validateFullName()">
@@ -241,6 +241,20 @@
         nameError.textContent = "Họ và tên phải có ít nhất 5 ký tự.";
       }
     });
+    //email
+    function generateGmailLink() {
+            const name = document.getElementById('fullName').value;
+            const phone = document.getElementById('phone').value;
+            const tour = document.getElementById('tourChoice').value;
+            const date = document.getElementById('tourDate').value;
+
+            const subject = `Đặt tour đi ${tour}`;
+            const body = `Họ và tên: ${name}%0A` +
+                         `Số điện thoại: ${phone}%0A` +
+                         `Ngày đi: ${date}`;
+             const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=vntourismsv@gmail.com&su=${encodeURIComponent(subject)}&body=${body}`;
+             window.open(gmailLink, '_blank');
+        }
   </script>
 </body>
 </html>
